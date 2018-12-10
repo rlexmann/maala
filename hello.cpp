@@ -41,24 +41,25 @@ Matrix zeros (int m, int n) {
     return A;
 }
 
-std::vector<std::string> split(const std::string& s, char delimiter)
-{
+std::vector<std::string> splitString(const std::string& s, char delimiter) {
+   // by Jonathan Boccara
+   // https://www.fluentcpp.com/2017/04/21/how-to-split-a-string-in-c/
    std::vector<std::string> tokens;
    std::string token;
    std::istringstream tokenStream(s);
-   while (std::getline(tokenStream, token, delimiter))
-   {
+   while (std::getline(tokenStream, token, delimiter)) {
       tokens.push_back(token);
    }
+
    return tokens;
 }
 
 Matrix matrixFromString(const std::string& s) {
     Matrix A;
 
-    std::vector<std::string> rows = split(s,';');
+    std::vector<std::string> rows = splitString(s,';');
     for (std::string row: rows) {
-        std::vector<std::string> elements = split(row,',');
+        std::vector<std::string> elements = splitString(row,',');
         std::vector<double> A_row;
         for (std::string element: elements) {
             A_row.push_back(std::stod(element));
@@ -72,25 +73,6 @@ Matrix matrixFromString(const std::string& s) {
 }
 
 int printMatrix (Matrix& A) {
-    bool startOfRow;
-
-    for (std::vector<double> row: A.mat) {
-        startOfRow = true;
-        for (double a: row) {
-            if (startOfRow) {
-                startOfRow = false;
-            } else {
-                std::cout << '\t';
-            }
-            std::cout << a;
-        }
-        std::cout << '\n';
-    }
-
-    return 0;
-}
-
-int printMatrix2 (Matrix& A) {
     int m = A.m;
     int n = A.n;
     for (int i = 0; i<m; i++) {
@@ -108,10 +90,10 @@ int printMatrix2 (Matrix& A) {
 
 int main () {
     try {
-        Matrix A = zeros(3,3);
-        printMatrix(A);
+        // Matrix A = zeros(3,3);
+        // printMatrix(A);
         Matrix B = matrixFromString("0,1,2;3,4,5;6,7,8;");
-        printMatrix2(B);
+        printMatrix(B);
     }
     catch (const char* msg) {
         std::cerr << msg << '\n';
