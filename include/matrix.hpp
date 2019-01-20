@@ -5,17 +5,22 @@
 
 namespace maala {
 
-    class Matrix {
+    class Matrix
+    {
     public:
-        int m;
-        int n;
-        std::vector<std::vector<double>> mat;
+        Matrix();
+        Matrix(int m, int n, double val);
 
         double get(int i, int j);
         double& operator()(int i, int j);
-
+        std::vector<int>& dim() { return m_dim; }
+        std::vector<double>& mat() { return m_mat; }
+        int reshape(int m, int n);
+        Matrix& T();
     private:
-        bool transposed {false};
+        std::vector<int> m_dim;
+        std::vector<double> m_mat;
+        bool m_transposed {false};
     };
 
     Matrix zeros (int m, int n);

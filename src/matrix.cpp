@@ -7,36 +7,49 @@
 
 namespace maala {
 
+    Matrix::Matrix() {
+        m_dim = std::vector<int> {0,0};
+        m_mat = std::vector<double> {};
+    }
+
+    Matrix::Matrix(int m, int n, double val) {
+        m_dim = std::vector<int> {m,n};
+        m_mat = std::vector<double>(m*n,val);
+    }
+
     double Matrix::get(int i, int j) {
-        if (!transposed) {
-            return mat[i][j];
+        if (!m_transposed) {
+            return m_mat[i*m_dim[0] + j];
         } else {
-            return mat[j][i];
+            return m_mat[i + j*m_dim[1]];
         }
     }
 
     double& Matrix::operator()(int i, int j) {
-        return mat[i][j];
+        if (!m_transposed) {
+            return m_mat[i*m_dim[0] + j];
+        } else {
+            return m_mat[i + j*m_dim[1]];
+        }
     };
+
+    int Matrix::reshape(int m, int n) {
+        m_dim = std::vector<int> {m,n};
+        m_mat.resize(m*n);
+        return 0;
+    }
+
+    Matrix& Matrix::T() {
+        m_transposed = !m_transposed;
+        return *this;
+    }
 
     Matrix zeros (int m, int n) {
         if (0 >= m || 0 >= n) {
             throw "Non-positive matrix dimension(s)!";
         }
 
-        Matrix A;
-
-        for (int i = 0; i<m; i++) {
-            std::vector<double> row;
-            for (int j = 0; j<n; j++) {
-                row.push_back(0);
-            }
-            A.mat.push_back(row);
-        }
-        A.m = A.mat.size();
-        A.n = A.mat[0].size();
-
-        return A;
+        return Matrix(m,n,0);
     }
 
     std::vector<std::string> splitString(const std::string& s, char delimiter) {
@@ -54,31 +67,42 @@ namespace maala {
 
     Matrix matrixFromString(const std::string& s) {
         Matrix A;
+        int m,n {-1};
 
         std::vector<std::string> rows = splitString(s,';');
-        for (std::string row: rows) {
+        m = rows.size();
+        // for (std::string row: rows) {
+        for (int i = 0; i < m; i++) {
+            std::string row = rows[i];
             std::vector<std::string> elements = splitString(row,',');
-            std::vector<double> A_row;
-            for (std::string element: elements) {
-                A_row.push_back(std::stod(element));
+            if (n == -1) {
+                n = elements.size();
+                A.reshape(m,n);
             }
-            A.mat.push_back(A_row);
+            // for (std::string element: elements) {
+            for (int j = 0; j < n; j++) {
+                double element = std::stod(elements[j]);
+                // A_row.push_back(std::stod(element));
+                A(i,j) = element;
+            }
+            // A.mat.push_back(A_row);
         }
-        A.m = A.mat.size();
-        A.n = A.mat[0].size();
+        // A.m = A.mat.size();
+        // A.n = A.mat[0].size();
 
         return A;
     }
 
     int printMatrix (Matrix& A) {
-        int m = A.m;
-        int n = A.n;
+        std::vector<int> dim = A.dim();
+        int m = dim[0];
+        int n = dim[1];
         for (int i = 0; i<m; i++) {
             for (int j = 0; j<n; j++) {
                 if (j != 0) {
                     std::cout << '\t';
                 }
-                std::cout << A.get(i,j);
+                std::cout << A(i,j);
             }
             std::cout << '\n';
         }
