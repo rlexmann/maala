@@ -17,6 +17,5 @@ main.exe: $(SOURCES) $(HEADERS)
 	@$(CC) -o $@ $(SOURCES) $(CFLAGS)
 
 .PHONY: clean
-
 clean:
 	@rm *.exe

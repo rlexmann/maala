@@ -12,12 +12,12 @@ namespace maala {
         m_mat = std::vector<double> {};
     }
 
-    Matrix::Matrix(int m, int n, double val) {
+    Matrix::Matrix(const int m, const int n, const double val) {
         m_dim = std::vector<int> {m,n};
         m_mat = std::vector<double>(m*n,val);
     }
 
-    double Matrix::get(int i, int j) {
+    double Matrix::get(const int i, const int j) const {
         if (!m_transposed) {
             return m_mat[i*m_dim[0] + j];
         } else {
@@ -25,13 +25,29 @@ namespace maala {
         }
     }
 
-    double& Matrix::operator()(int i, int j) {
+    double& Matrix::operator()(const int i, const int j) {
         if (!m_transposed) {
             return m_mat[i*m_dim[0] + j];
         } else {
             return m_mat[i + j*m_dim[1]];
         }
     };
+
+    std::ostream& operator<<(std::ostream& os, const Matrix& A) {
+        std::vector<int> dim = A.dim();
+        int m = dim[0];
+        int n = dim[1];
+        for (int i = 0; i<m; i++) {
+            for (int j = 0; j<n; j++) {
+                if (j != 0) {
+                    os << '\t';
+                }
+                os << A.get(i,j);
+            }
+            os << '\n';
+        }
+        return os;
+    }
 
     int Matrix::reshape(int m, int n) {
         m_dim = std::vector<int> {m,n};

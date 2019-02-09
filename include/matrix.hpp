@@ -1,5 +1,4 @@
 #include <iostream>
-#include <sstream>
 #include <string>
 #include <vector>
 
@@ -9,11 +8,12 @@ namespace maala {
     {
     public:
         Matrix();
-        Matrix(int m, int n, double val);
+        Matrix(const int m, const int n, const double val);
 
-        double get(int i, int j);
-        double& operator()(int i, int j);
-        std::vector<int>& dim() { return m_dim; }
+        double get(const int i, const int j) const;
+        double& operator()(const int i, const int j);
+        friend std::ostream& operator<<(std::ostream& os, const Matrix& A);
+        std::vector<int> dim() const { return m_dim; }
         std::vector<double>& mat() { return m_mat; }
         int reshape(int m, int n);
         Matrix& T();
