@@ -7,8 +7,20 @@ mkdir -p $BUILD_DIR;
 # run cmake - generate platform specific build files
 cmake ./ -B $BUILD_DIR;
 
-# run make - Linux specific build tool
-make -C $BUILD_DIR; 
+if [ "$(uname -s | grep -i 'linux')" ]
+then
+	# run make
+	make -C $BUILD_DIR;
 
-# copy build result (for convenience)
-cp $BUILD_DIR/Demo ./
+	# copy build result (for convenience)
+	cp $BUILD_DIR/Demo ./;
+
+elif [ "$(uname -s | grep -i 'mingw')" ]
+then
+	# do something Windows specific
+	echo "Manual build required.";
+
+else
+	echo "Manual build required.";
+
+fi
