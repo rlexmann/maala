@@ -1,6 +1,7 @@
 #include <iostream>
+#include <string>
 
-#include "matrix.hpp"
+#include <matrix.hpp>
 
 int main () {
     using namespace maala;
@@ -21,7 +22,7 @@ int main () {
         std::cout << "B.T() =" << std::endl;
         std::cout << B.T();
     }
-    catch (const char* msg) {
+    catch (const std::string msg) {
         std::cerr << msg << '\n';
     }
 
