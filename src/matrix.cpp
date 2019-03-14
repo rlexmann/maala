@@ -68,11 +68,11 @@ namespace maala {
         int m, n;
 
         std::vector<std::string> rows = splitString(s,';');
-        m = rows.size();
+        m = static_cast<int>(rows.size());
         for (int i = 0; i < m; i++) {
             std::string row = rows[i];
             std::vector<std::string> elements = splitString(row,',');
-            n = elements.size();
+            n = static_cast<int>(elements.size());
             if (0 == i) {
                 A.reshape(m,n);
             }
