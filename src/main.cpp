@@ -13,7 +13,7 @@ int main () {
 
         std::cout << std::endl;
 
-        maala::Matrix B = maala::matrixFromString("0,1,2;3,4,5;6,7,8;");
+        maala::Matrix B = maala::matrixFromString("0,1,2;3,4,5;6,7,8;9,10,11;");
         std::cout << "B =" << std::endl;
         std::cout << B;
 
@@ -21,10 +21,19 @@ int main () {
 
         std::cout << "B.T() =" << std::endl;
         std::cout << B.T();
+
+        std::cout << std::endl;
+
+        Matrix C({ {1,2},{3,4} });
+        std::cout << "C =" << std::endl;
+        std::cout << C;
     }
     catch (const std::string msg) {
         std::cerr << msg << '\n';
     }
+
+    std::cout << std::endl << "Press Return to exit..." << std::endl;
+    std::getline(std::cin, std::string());
 
     return 0;
 }

@@ -8,20 +8,20 @@
 
 namespace maala {
 
-    const double& Matrix::operator()(const int i, const int j) const {
+    const double& Matrix::operator()(const size_t i, const size_t j) const {
         if (!m_transposed) {
-            return m_mat[i*m_dim[0] + j];
+            return m_mat[i][j];
         } else {
-            return m_mat[i + j*m_dim[1]];
+            return m_mat[j][i];
         }
     };
 
     std::ostream& operator<<(std::ostream& os, const Matrix& A) {
-        std::vector<int> dim = A.dim();
-        int m = dim[0];
-        int n = dim[1];
-        for (int i = 0; i<m; i++) {
-            for (int j = 0; j<n; j++) {
+        std::vector<size_t> dim = A.dim();
+        size_t m = dim[0];
+        size_t n = dim[1];
+        for (size_t i = 0; i<m; i++) {
+            for (size_t j = 0; j<n; j++) {
                 if (j != 0) {
                     os << '\t';
                 }
@@ -32,17 +32,22 @@ namespace maala {
         return os;
     }
 
-    void Matrix::reshape(const int m, const int n) {
-        m_dim = std::vector<int> {m,n};
+    void Matrix::reshape(const size_t m, const size_t n) {
+        m_dim = {m,n};
         m_mat.resize(m*n);
+        for (double1D& row : m_mat) {
+            row.resize(n);
+        }
+        m_mat.resize(m);
     }
 
     Matrix& Matrix::T() {
         m_transposed = !m_transposed;
+        std::swap(m_dim[0], m_dim[1]);
         return *this;
     }
 
-    Matrix zeros (const int m, const int n) {
+    Matrix zeros (const size_t m, const size_t n) {
         if (0 >= m || 0 >= n) {
             THROW_EXCEPTION("Non-positive matrix dimension(s)!");
         }
@@ -65,21 +70,21 @@ namespace maala {
 
     Matrix matrixFromString(const std::string& s) {
         Matrix A;
-        int m, n;
+        size_t m, n;
 
         std::vector<std::string> rows = splitString(s,';');
-        m = static_cast<int>(rows.size());
-        for (int i = 0; i < m; i++) {
+        m = rows.size();
+        for (size_t i = 0; i < m; i++) {
             std::string row = rows[i];
             std::vector<std::string> elements = splitString(row,',');
-            n = static_cast<int>(elements.size());
+            n = elements.size();
             if (0 == i) {
                 A.reshape(m,n);
             }
             else if (A.dim()[1] != n) {
                 THROW_EXCEPTION("Inconsistent row lengths.");
             }
-            for (int j = 0; j < n; j++) {
+            for (size_t j = 0; j < n; j++) {
                 double element = std::stod(elements[j]);
                 A(i,j) = element;
             }
@@ -88,20 +93,9 @@ namespace maala {
         return A;
     }
 
-    int printMatrix (const Matrix& A) {
-        std::vector<int> dim = A.dim();
-        int m = dim[0];
-        int n = dim[1];
-        for (int i = 0; i<m; i++) {
-            for (int j = 0; j<n; j++) {
-                if (j != 0) {
-                    std::cout << '\t';
-                }
-                std::cout << A(i,j);
-            }
-            std::cout << '\n';
-        }
+    void printMatrix (const Matrix& A) {
+        std::cout << A;
 
-        return 0;
+        return;
     }
 }

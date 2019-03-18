@@ -2,6 +2,7 @@
 #define MAALA_COMMON_HPP
 
 #include <string>
+#include <sstream>
 
 #define THROW_EXCEPTION(msg) \
     std::ostringstream em; \
