@@ -37,6 +37,40 @@ namespace maala {
       return *this;
    }
 
+   Matrix& Matrix::swapRows(const size_t i, const size_t j) {
+      if (i >= m_dim[0] || j >= m_dim[1]) {
+         THROW_EXCEPTION("Index greater than matrix dimension.");
+      }
+
+      if (m_transposed) {
+         return (*this).T().swapCols(i, j).T();
+      }
+
+      if (i != j) {
+         std::swap(m_mat[i], m_mat[j]);
+      }
+
+      return *this;
+   }
+
+   Matrix& Matrix::swapCols(const size_t i, const size_t j) {
+      if (i >= m_dim[0] || j >= m_dim[1]) {
+         THROW_EXCEPTION("Index greater than matrix dimension.");
+      }
+
+      if (m_transposed) {
+         return (*this).T().swapRows(i, j).T();
+      }
+
+      if (i != j) {
+         for (auto& row : m_mat) {
+            std::swap(row[i], row[j]);
+         }
+      }
+
+      return *this;
+   }
+
    Matrix zeros (const size_t m, const size_t n) {
       if (0 >= m || 0 >= n) {
          THROW_EXCEPTION("Non-positive matrix dimension(s)!");

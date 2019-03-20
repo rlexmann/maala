@@ -57,6 +57,8 @@ namespace maala {
       // modifiers
       void reshape(const size_t m, const size_t n);
       Matrix& T();
+      Matrix& swapRows(const size_t i, const size_t j);
+      Matrix& swapCols(const size_t i, const size_t j);
 
       // print
       friend std::ostream& operator<<(std::ostream& os, const Matrix& A);

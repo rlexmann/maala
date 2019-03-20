@@ -3,6 +3,7 @@
 
 #include <string>
 #include <sstream>
+#include <vector>
 
 #define THROW_EXCEPTION(msg) \
    std::ostringstream em; \
