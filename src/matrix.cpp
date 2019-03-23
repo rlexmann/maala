@@ -117,6 +117,23 @@ namespace maala {
       return A;
    }
 
+   Matrix concat(const Matrix& A, const Matrix& B) {
+      size_t am = A.dim()[0], an = A.dim()[1];
+      size_t bm = B.dim()[0], bn = B.dim()[1];
+      if (am != bm) {
+         THROW_EXCEPTION("Incompatible matrices.");
+      }
+      size_t m = am, n = an + bn;
+      Matrix C(A);
+      C.reshape(m, n);
+      for (size_t i = 0; i < bm; ++i) {
+         for (size_t j = 0; j < bn; ++j) {
+            C(i, am + j) = B(i, j);
+         }
+      }
+      return C;
+   }
+
    void printMatrix (const Matrix& A) {
       std::cout << A;
 

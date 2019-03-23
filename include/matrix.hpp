@@ -31,12 +31,15 @@ namespace maala {
 
       // copy constructor
       Matrix(const Matrix& A)
-         : m_dim{A.dim()}, m_mat{A.mat()}
+         : m_dim{A.dim()}, m_mat{A.mat()}, m_transposed{A.transposed()}
       {}
 
       // access methods
       const std::vector<size_t> dim() const {
          return m_dim;
+      }
+      const bool transposed() const {
+         return m_transposed;
       }
       const double2D& mat() const {
          return m_mat;
@@ -71,6 +74,8 @@ namespace maala {
 
    Matrix zeros (const size_t m, const size_t n);
    Matrix matrixFromString(const std::string& s);
+
+   Matrix concat(const Matrix& A, const Matrix& B);
    
    void printMatrix (const Matrix& A);
 }

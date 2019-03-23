@@ -3,40 +3,21 @@
 
 #include <matrix.hpp>
 #include <elimination.hpp>
+#include <solver.hpp>
 
 int main () {
    using namespace maala;
    
    try {
-      Matrix A = zeros(3,3);
-      std::cout << "A =" << std::endl;
-      printMatrix(A);
-      std::cout << std::endl;
-
-      maala::Matrix B = maala::matrixFromString("0,1,2;3,4,5;6,7,8;9,10,11;");
-      std::cout << "B =" << std::endl;
-      std::cout << B;
-      std::cout << std::endl;
-
-      std::cout << "B.T() =" << std::endl;
-      std::cout << B.T();
-      std::cout << std::endl;
-
-      Matrix C({ {1,2},{3,4} });
+      Matrix A({ {2,1,1},{6,2,1},{-2,2,1} });
+      Matrix B = matrixFromString("1;-1;7");
+      Matrix C = concat(A, B);
       std::cout << "C =" << std::endl;
       std::cout << C;
       std::cout << std::endl;
 
-      std::cout << "B.swapRows(0,2) =" << std::endl;
-      std::cout << B.swapRows(0,2);
-      std::cout << std::endl;
-
-      std::cout << "B.swapCols(1,2) =" << std::endl;
-      std::cout << B.swapCols(1, 2);
-      std::cout << std::endl;
-
-      std::cout << "gauss(B) =" << std::endl;
-      std::cout << gauss(B.T());
+      std::cout << "gaussSolver(A,B) =" << std::endl;
+      std::cout << gaussSolver(A,B);
       std::cout << std::endl;
    }
    catch (const std::string msg) {

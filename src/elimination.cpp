@@ -1,29 +1,38 @@
-#include<algorithm>
+#include <algorithm>
 #include <common.hpp>
 #include <matrix.hpp>
 
 namespace maala {
 
    Matrix& gauss(Matrix& A) {
+      size_t i, j, pi = 0, pj = 0;
       auto dim = A.dim();
-      size_t maxRank = std::min(dim[0],dim[1]);
-      for (size_t n = 0; n < maxRank; ++n) {
-         size_t i;
-         for (i = n; i < dim[0]; ++i) {
-            if (0. != A(i, n)) break;
+      double nRows = dim[0], nCols = dim[1];
+      size_t maxRank = std::min(nRows, nCols);
+
+      while (nRows > pi && nCols > pj) {
+         for (i = pi; i < nRows; ++i) { // search for non-zero pivot
+            if (0.0 != A(i, pj)) break;
          }
-         if (dim[0] == i)
-            return A;
-         A.swapRows(n, i);
-         for (i = n + 1; i < dim[0]; ++i) {
-            double c = A(i, n) / A(n, n);
-            for (size_t j = n; j < dim[1]; ++j) {
-               if (j == n)
-                  A(i, j) = 0;
-               else
-                  A(i, j) -= A(n, j)*c;
+         if (nRows == i) { // non-zero pivot not found
+            ++pj;
+            continue;
+         }
+         else {
+            A.swapRows(i, pi);
+         }
+
+         for (i = pi + 1; i < nRows; ++i) { // eliminate positions below the pivot
+            if (0.0 == A(i, pj)) continue; // position already clear
+
+            double c = A(i, pj) / A(pi, pj);
+            A(i, pj) = 0.0;
+            for (j = pj + 1; j < nCols; ++j) {
+               A(i, j) -= A(pi, j)*c;
             }
          }
+         ++pi;
+         ++pj;
       }
       return A;
    }
