@@ -15,4 +15,8 @@ include_directories (include)
 file(GLOB SOURCES "${SOURCE_DIR}/*.cpp" "${INCLUDE_DIR}/*.hpp")
 
 add_executable (Demo ${SOURCES})
-set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Demo)
+set_target_properties(
+  Demo PROPERTIES
+    VS_STARTUP_PROJECT Demo
+    SUFFIX ".exe"
+)

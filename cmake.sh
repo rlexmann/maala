@@ -13,7 +13,7 @@ then
 	make -C $BUILD_DIR;
 
 	# copy build result (for convenience)
-	cp $BUILD_DIR/Demo ./;
+	cp $BUILD_DIR/Demo.exe ./;
 
 elif [ "$(uname -s | grep -i 'mingw')" ]
 then
