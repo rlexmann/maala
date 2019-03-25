@@ -13,8 +13,10 @@
 #define UNCONST(Tobject,method,Treturn) const_cast<Treturn>(static_cast<const Tobject&>(*this).method)
 
 namespace maala {
-   typedef std::vector<double>              double1D;
-   typedef std::vector<std::vector<double>> double2D;
+
+typedef std::vector<double>              double1D;
+typedef std::vector<std::vector<double>> double2D;
+
 }
 
 #endif // ifndef MAALA_COMMON_HPP

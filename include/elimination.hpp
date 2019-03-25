@@ -4,7 +4,9 @@
 #include <matrix.hpp>
 
 namespace maala {
-   Matrix& gauss(Matrix&);
+
+Matrix& gauss(Matrix&);
+
 }
 
 #endif // ifndef MAALA_ELIMINATION_HPP
