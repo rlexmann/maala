@@ -23,7 +23,7 @@ Matrix backSubstitution(const Matrix& A, const size_t solutionCols) {
 Matrix gaussSolver(const Matrix& A, const Matrix& B) {
    size_t am = A.dim()[0], an = A.dim()[1];
    size_t bm = B.dim()[0], bn = B.dim()[1];
-   Matrix C = concat(A, B);
+   Matrix C = Matrix::concat(A, B);
    gauss(C);
    return backSubstitution(C, bn);
 }

@@ -11,14 +11,19 @@ int main () {
    
    try {
       Matrix A({ {2,1,1},{6,2,1},{-2,2,1} });
-      Matrix B = matrixFromString("1;-1;7");
-      Matrix C = concat(A, B);
+      Matrix B("1;-1;7");
+      Matrix C = Matrix::concat(A, B);
       std::cout << "C =" << std::endl;
-      std::cout << C;
+      C.print();
       std::cout << std::endl;
 
-      std::cout << "gaussSolver(A,B) =" << std::endl;
-      std::cout << gaussSolver(A,B);
+      std::cout << "X = gaussSolver(A,B) =" << std::endl;
+      Matrix X = gaussSolver(A,B);
+      X.print();
+      std::cout << std::endl;
+
+      std::cout << "A*X =" << std::endl;
+      std::cout << A*X;
       std::cout << std::endl;
    }
    catch (const std::string msg) {
