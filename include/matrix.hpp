@@ -34,6 +34,15 @@ public:
       : m_dim{A.dim()}, m_mat{A.mat()}, m_transposed{A.transposed()}
    {}
 
+      // copy assignement operator
+      Matrix& operator=(const Matrix& A) {
+         if (this != &A) {
+            m_dim = A.m_dim;
+            m_mat = A.m_mat;
+            m_transposed = A.m_transposed;
+         }
+      }
+
    // access methods
    const std::vector<size_t> dim() const {
       return m_dim;
