@@ -1,6 +1,7 @@
 #ifndef MAALA_COMMON_HPP
 #define MAALA_COMMON_HPP
 
+#include <limits>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -17,6 +18,13 @@ namespace maala {
 
 typedef std::vector<double> double1D;
 typedef std::vector<std::vector<double>> double2D;
+
+template<typename T>
+constexpr bool
+isEqual(const T a, const T b)
+{
+  return (a - b) <= std::numeric_limits<T>::epsilon();
+}
 
 }
 

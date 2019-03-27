@@ -81,12 +81,17 @@ public:
   Matrix& T();
   Matrix& swapRows(const size_t i, const size_t j);
   Matrix& swapCols(const size_t i, const size_t j);
+  Matrix& multiplyRow(const double c, const size_t i);
+  Matrix& addMultipliedRow(const double c, const size_t i, const size_t j);
 
   static Matrix matmul(const Matrix& A, const Matrix& B);
   Matrix operator*(const Matrix& B) const { return matmul(*this, B); }
 
   static Matrix concat(const Matrix& A, const Matrix& B);
   Matrix concat(const Matrix& B) const { return concat(*this, B); }
+
+  // comparator
+  bool operator==(const Matrix& B);
 
   // print
   friend std::ostream& operator<<(std::ostream& os, const Matrix& A);

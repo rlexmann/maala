@@ -28,11 +28,9 @@ gauss(Matrix& A)
       if (0.0 == A(i, pj))
         continue; // position already clear
 
-      double c = A(i, pj) / A(pi, pj);
-      A(i, pj) = 0.0;
-      for (j = pj + 1; j < nCols; ++j) {
-        A(i, j) -= A(pi, j) * c;
-      }
+      double c = -A(i, pj) / A(pi, pj);
+      A.addMultipliedRow(c, pi, i);
+      A(i, pj) = 0.0; // ensure that the position below pivot is really cleared
     }
     ++pi;
     ++pj;

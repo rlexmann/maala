@@ -104,6 +104,24 @@ Matrix::swapCols(const size_t i, const size_t j)
   return *this;
 }
 
+Matrix&
+Matrix::multiplyRow(const double c, const size_t i)
+{
+  for (size_t j = 0; j < m_dim[1]; ++j) {
+    (*this)(i, j) *= c;
+  }
+  return *this;
+}
+
+Matrix&
+Matrix::addMultipliedRow(const double c, const size_t i, const size_t j)
+{
+  for (size_t k = 0; k < m_dim[1]; ++k) {
+    (*this)(j, k) += this->valueAt(i, k) * c;
+  }
+  return *this;
+}
+
 Matrix
 Matrix::matmul(const Matrix& A, const Matrix& B)
 {
@@ -141,6 +159,24 @@ Matrix::concat(const Matrix& A, const Matrix& B)
     }
   }
   return C;
+}
+
+bool
+Matrix::operator==(const Matrix& B)
+{
+  if (m_dim != B.dim()) {
+    return false;
+  }
+
+  for (size_t i = 0; i < m_dim[0]; ++i) {
+    for (size_t j = 0; j < m_dim[1]; ++j) {
+      if (!isEqual<double>((*this)(i, j), B(i, j))) {
+        std::cout << ((*this)(i, j) == B(i, j)) << std::endl;
+        return false;
+      }
+    }
+  }
+  return true;
 }
 
 std::ostream&

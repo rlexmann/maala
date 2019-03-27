@@ -6,27 +6,52 @@
 #include <matrix.hpp>
 #include <solver.hpp>
 
+using namespace maala;
+
+void
+gaussEliminationExerice(const Matrix& A, const Matrix& B)
+{
+
+  Matrix C = Matrix::concat(A, B);
+  std::cout << " concat(A,B) =" << std::endl;
+  C.print();
+  std::cout << std::endl;
+
+  Matrix X = gaussSolver(A, B);
+  std::cout << "X = gaussSolver(A,B) =" << std::endl;
+  X.print();
+  std::cout << std::endl;
+
+  std::cout << "A*X == B" << std::endl;
+  std::cout << ((A * X == B) ? "true" : "false") << std::endl;
+  std::cout << "~~~~~~~~~~~~~~~~~" << std::endl;
+}
+
 int
 main()
 {
-  using namespace maala;
-
   try {
-    Matrix A({ { 2, 1, 1 }, { 6, 2, 1 }, { -2, 2, 1 } });
-    Matrix B("1;-1;7");
-    Matrix C = Matrix::concat(A, B);
-    std::cout << "C =" << std::endl;
-    C.print();
-    std::cout << std::endl;
+    // Tutorial 1.2
+    std::vector<Matrix> A, b;
+    A.push_back(Matrix("2,1,1;6,2,1;-2,2,1"));
+    b.push_back(Matrix("1;-1;7"));
+    // Example 1.2.1
+    A.push_back(Matrix("0,1,-1;-2,4,-1;-2,5,-4"));
+    b.push_back(Matrix("3;1;-2"));
+    // Exercise 1.2.1
+    A.push_back(Matrix("1,1,1;1,2,2;1,2,3"));
+    b.push_back(Matrix("1;1;1"));
+    // Exercise 1.2.2
+    A.push_back(Matrix("2,-1,0;-1,2,-1;0,-1,1"));
+    b.push_back(Matrix("0;0;1"));
+    // Exercise 1.2.3
+    A.push_back(Matrix("0,4,-3;-1,7,-5;-1,8,-6"));
+    b.push_back(Matrix("3;4;5"));
 
-    std::cout << "X = gaussSolver(A,B) =" << std::endl;
-    Matrix X = gaussSolver(A, B);
-    X.print();
-    std::cout << std::endl;
+    for (size_t i = 0; i < A.size(); ++i) {
+      gaussEliminationExerice(A[i], b[i]);
+    }
 
-    std::cout << "A*X =" << std::endl;
-    std::cout << A * X;
-    std::cout << std::endl;
   } catch (const std::string msg) {
     std::cerr << msg << '\n';
   }
