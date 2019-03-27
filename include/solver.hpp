@@ -5,7 +5,8 @@
 
 namespace maala {
 
-Matrix gaussSolver(const Matrix& A, const Matrix& B);
+Matrix
+gaussSolver(const Matrix& A, const Matrix& B);
 
 }
 
