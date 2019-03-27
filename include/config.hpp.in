@@ -1,17 +1,23 @@
+#undef UNIX
 #cmakedefine UNIX
 // TRUE on all UNIX-like OS's, including Apple OS X and CygWin
 
+#undef WIN32
 #cmakedefine WIN32
 // TRUE on Windows. Prior to 2.8.4 this included CygWin
 
+#undef APPLE
 #cmakedefine APPLE
 // TRUE on Apple systems. Note this does not imply the system is Mac OS X, only that APPLE is #defined in C/C++ header files.
 
+#undef MINGW
 #cmakedefine MINGW
 // TRUE when using the MinGW compiler in Windows
 
+#undef MSYS
 #cmakedefine MSYS
 // TRUE when using the MSYS developer environment in Windows
 
+#undef CYGWIN
 #cmakedefine CYGWIN
 // TRUE on Windows when using the CygWin version of cmake
