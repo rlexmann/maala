@@ -41,7 +41,7 @@ public:
     }
   }
 
-  Matrix(const std::string& s);
+  explicit Matrix(const std::string& s);
 
   // copy constructor
   Matrix(const Matrix& A)

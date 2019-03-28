@@ -23,7 +23,7 @@ template<typename T>
 constexpr bool
 isEqual(const T a, const T b)
 {
-  return (a - b) <= std::numeric_limits<T>::epsilon();
+  return std::abs(a - b) <= std::numeric_limits<T>::epsilon();
 }
 
 }

@@ -6,17 +6,25 @@
 namespace maala {
 
 Matrix
-backSubstitution(const Matrix& A, const size_t solutionCols)
+backSubstitution(const Matrix& A, const size_t rhsCols)
 {
-  size_t m = A.dim()[0], n = A.dim()[1] - solutionCols;
-  Matrix X(n, solutionCols, 0);
+  size_t m = A.dim()[0], n = A.dim()[1] - rhsCols;
+  Matrix X(n, rhsCols, 0);
   for (size_t i = m - 1; i + 1 > 0; --i) {
-    for (size_t j = 0; j < solutionCols; ++j) {
-      double sumSolved = 0.0;
-      for (size_t k = n - 1; k > i; --k) {
-        sumSolved += A(i, k) * X(k, j);
+    for (size_t k = 0; k < rhsCols; ++k) {
+      double rhs = A(i, n + k);
+      for (size_t j = n - 1; j > i; --j) {
+        rhs -= A(i, j) * X(j, k);
       }
-      X(i, j) = (A(i, m + j) - sumSolved) / A(i, i);
+      if (isEqual<double>(A(i, i), 0.0)) {
+        if (isEqual<double>(rhs, 0.0)) {
+          X(i, k) = 1.0;
+          continue;
+        } else {
+          return Matrix(n, rhsCols, NAN);
+        }
+      }
+      X(i, k) = rhs / A(i, i);
     }
   }
   return X;
