@@ -2,9 +2,10 @@
 #include <string>
 
 #include <config.hpp>
-#include <elimination.hpp>
 #include <matrix.hpp>
 #include <solver.hpp>
+
+#include <chapters.hpp>
 
 using namespace maala;
 
@@ -27,8 +28,8 @@ gaussEliminationExerice(const Matrix& A, const Matrix& B)
   std::cout << "~~~~~~~~~~~~~~~~~" << std::endl;
 }
 
-int
-main()
+void
+exChapter1()
 {
   try {
     // Tutorial 1.2
@@ -47,6 +48,12 @@ main()
     // Exercise 1.2.3
     A.push_back(Matrix("0,4,-3;-1,7,-5;-1,8,-6"));
     b.push_back(Matrix("3;4;5"));
+    // Exercise 1.2.4
+    A.push_back(Matrix("   1, 1, 1, 1; \
+                           1, 1, 3, 3; \
+                           1, 1, 2, 3; \
+                           1, 3, 3, 3; "));
+    b.push_back(Matrix("1;3;3;4"));
 
     for (size_t i = 0; i < A.size(); ++i) {
       gaussEliminationExerice(A[i], b[i]);
@@ -55,12 +62,4 @@ main()
   } catch (const std::string msg) {
     std::cerr << msg << '\n';
   }
-
-#ifdef WIN32
-  std::cout << std::endl << "Press Return to exit..." << std::endl;
-  std::string input;
-  std::getline(std::cin, input);
-#endif
-
-  return 0;
 }

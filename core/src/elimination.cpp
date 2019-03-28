@@ -7,7 +7,7 @@ namespace maala {
 Matrix&
 gauss(Matrix& A)
 {
-  size_t i, j, pi = 0, pj = 0;
+  size_t i, pi = 0, pj = 0;
   auto dim = A.dim();
   size_t nRows = dim[0], nCols = dim[1];
   size_t maxRank = std::min(nRows, nCols);
