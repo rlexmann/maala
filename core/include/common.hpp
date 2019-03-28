@@ -1,6 +1,7 @@
 #ifndef MAALA_COMMON_HPP
 #define MAALA_COMMON_HPP
 
+#include <cmath>
 #include <limits>
 #include <sstream>
 #include <string>
