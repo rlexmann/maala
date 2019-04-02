@@ -35,7 +35,7 @@ exChapter1()
   try {
     std::vector<Matrix> A, b;
     // Tutorial 1.2
-    A.push_back(Matrix("2,1,1;6,2,1;-2,-2,1;"));
+    A.push_back(Matrix("2,1,1;6,2,1;-2,2,1;"));
     b.push_back(Matrix("1;-1;7;"));
 
     // Example 1.2.1
