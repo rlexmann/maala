@@ -30,7 +30,7 @@ gaussEliminationExerice(const Matrix& A, const Matrix& B)
 }
 
 void
-exChapter1()
+exChapter1_part1()
 {
   try {
     std::vector<Matrix> A, b;
@@ -100,4 +100,23 @@ exChapter1()
   } catch (const std::string msg) {
     std::cerr << msg << '\n';
   }
+}
+
+void
+exChapter1_part2()
+{
+   try {
+      // Tutorial 1.3
+      Matrix A("  2, 2, 6; \
+                  2, 1, 7; \
+                 -2,-6,-7; ");
+      Matrix b("  4; \
+                  6; \
+                 -1; ");
+
+      gaussJordan(A.concat(b)).print();
+   }
+   catch (const std::string msg) {
+      std::cerr << msg << '\n';
+   }
 }

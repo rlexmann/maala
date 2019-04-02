@@ -7,7 +7,8 @@
 int
 main()
 {
-  exChapter1();
+  //exChapter1_part1();
+   exChapter1_part2();
 
 #ifdef WIN32
   std::cout << std::endl << "Press Return to exit..." << std::endl;

@@ -8,6 +8,9 @@ namespace maala {
 Matrix&
 gauss(Matrix&);
 
+Matrix&
+gaussJordan(Matrix&);
+
 }
 
 #endif // ifndef MAALA_ELIMINATION_HPP

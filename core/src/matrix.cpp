@@ -37,14 +37,13 @@ Matrix::Matrix(const std::string& s)
     std::vector<std::string> elements = splitString(row, ',');
     n = elements.size();
     if (0 == i) {
-      this->reshape(m, n);
+       this->reshape(m, n);
+    } else if (1 == n &&
+       std::all_of(elements[0].begin(), elements[0].end(), isspace)) {
+       // empty row
+       this->reshape(--m, m_dim[1]);
+       continue;
     } else if (m_dim[1] != n) {
-      if (1 == n &&
-          std::all_of(elements[0].begin(), elements[0].end(), isspace)) {
-        // empty row -> last row terminated with ';'
-        this->reshape(--m, m_dim[1]);
-        break;
-      }
       THROW_EXCEPTION("Inconsistent row lengths.");
     }
     for (size_t j = 0; j < n; j++) {
