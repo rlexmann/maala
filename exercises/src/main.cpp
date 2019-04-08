@@ -5,16 +5,15 @@
 #include <config.hpp>
 
 int
-main()
-{
-  //exChapter1_part1();
+main() {
+   // exChapter1_part1();
    exChapter1_part2();
 
 #ifdef WIN32
-  std::cout << std::endl << "Press Return to exit..." << std::endl;
-  std::string input;
-  std::getline(std::cin, input);
+   std::cout << std::endl << "Press Return to exit..." << std::endl;
+   std::string input;
+   std::getline(std::cin, input);
 #endif
 
-  return 0;
+   return 0;
 }

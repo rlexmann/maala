@@ -11,6 +11,6 @@ gauss(Matrix&);
 Matrix&
 gaussJordan(Matrix&);
 
-}
+} // namespace maala
 
 #endif // ifndef MAALA_ELIMINATION_HPP
