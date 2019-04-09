@@ -7,10 +7,12 @@
 #include <string>
 #include <vector>
 
-#define THROW_EXCEPTION(msg)                           \
-   std::ostringstream em;                              \
-   em << __FILE__ << " (" << __LINE__ << "): " << msg; \
-   throw em.str();
+#define THROW_EXCEPTION(msg)                              \
+   {                                                      \
+      std::ostringstream em;                              \
+      em << __FILE__ << " (" << __LINE__ << "): " << msg; \
+      throw em.str();                                     \
+   }
 
 #define UNCONST(Tobject, method, Treturn) \
    const_cast<Treturn>(static_cast<const Tobject&>(*this).method)

@@ -89,6 +89,7 @@ class Matrix {
       std::vector<size_t> m_rows, m_cols;
    };
 
+   Matrix operator()(const std::string s) const;
    Matrix getSlice(const SliceDesc& sd);
    Matrix getRow(const size_t i);
    Matrix getCol(const size_t j);

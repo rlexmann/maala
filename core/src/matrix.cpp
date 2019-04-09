@@ -56,6 +56,18 @@ Matrix::Matrix(const std::string& s)
 }
 
 Matrix
+Matrix::operator()(const std::string s) const {
+   auto ranges = splitString(s, ';');
+   if (m_dim.size() != ranges.size())
+      THROW_EXCEPTION("Invalid slice definition.");
+   for (auto dimRange : ranges)
+   {
+      // std::stoi
+   }
+   return Matrix();
+}
+
+Matrix
 Matrix::getSlice(const SliceDesc& sd) {
    bool allRows = sd.m_rows.empty(), allCols = sd.m_cols.empty();
    size_t m = allRows ? m_dim[0] : sd.m_rows.size();
