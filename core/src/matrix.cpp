@@ -24,6 +24,11 @@ splitString(const std::string& s, char delimiter) {
    return tokens;
 }
 
+inline bool
+isEmptyString(const std::string& s) {
+   return std::all_of(s.begin(), s.end(), isspace);
+}
+
 Matrix::Matrix(const std::string& s)
   : m_dim{ 0, 0 }
   , m_mat{}
@@ -39,8 +44,7 @@ Matrix::Matrix(const std::string& s)
       if (0 == i)
       {
          this->reshape(m, n);
-      } else if (1 == n &&
-                 std::all_of(elements[0].begin(), elements[0].end(), isspace))
+      } else if (1 == n && isEmptyString(elements[0]))
       {
          // empty row
          this->reshape(--m, m_dim[1]);
@@ -53,6 +57,61 @@ Matrix::Matrix(const std::string& s)
          (*this)(i, j) = element;
       }
    }
+}
+
+Matrix::SliceDesc
+Matrix::sliceDescFromStr(const std::string& s) {
+   std::vector<size_t> m_rows, m_cols;
+   const auto dimSpecStrings = splitString(s, ';');
+   if (dimSpecStrings.size() != 2)
+   {
+      THROW_EXCEPTION("Invalid slice definition.")
+   }
+
+   size_t ind = 0;
+   for (const auto& dimSpec : dimSpecStrings)
+   {
+      // <start (optional)>:<end (optional>
+      auto dimLimits = splitString(dimSpec, ':');
+      if (dimSpec != dimLimits[0])
+      { // ':' delimiter found
+         size_t low = isEmptyString(dimLimits[0]) ? 0 : std::stoi(dimLimits[0]);
+         size_t high = (dimLimits.size() < 2 || isEmptyString(dimLimits[1]))
+                         ? m_dim[ind] - 1
+                         : std::stoi(dimLimits[1]);
+         for (size_t i = low; i <= high; ++i)
+         {
+            if (0 == ind)
+               m_rows.push_back(i);
+            else
+               m_cols.push_back(i);
+         }
+      } else
+      {
+         auto vals = splitString(dimSpec, ',');
+         if (vals[0] == dimSpec && isEmptyString(vals[0]))
+         {
+            THROW_EXCEPTION("Invalid slice definition.")
+         }
+
+         for (const auto& val : vals)
+         {
+            size_t i = std::stoi(val);
+            if (0 == ind)
+               m_rows.push_back(i);
+            else
+               m_cols.push_back(i);
+         }
+      }
+
+      ++ind;
+   }
+   return Matrix::SliceDesc(m_rows, m_cols);
+}
+
+Matrix
+Matrix::operator()(const std::string& s) {
+   return getSlice(sliceDescFromStr(s));
 }
 
 Matrix
