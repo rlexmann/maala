@@ -16,7 +16,8 @@ findNonZeroPivot(Matrix& A, const size_t pi, const size_t pj) {
    if (nRows == i)
    { // non-zero pivot not found
       return false;
-   } else
+   }
+   else
    {
       A.swapRows(i, pi);
       return true;

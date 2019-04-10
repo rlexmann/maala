@@ -114,8 +114,8 @@ exChapter1_part1() {
       gaussEliminationExerice(*A.rbegin(), *b.rbegin());
       // b)
       ((*A.rbegin()) * Matrix("20;20;20;40;")).print();
-
-   } catch (const std::string msg)
+   }
+   catch (const std::string msg)
    { std::cerr << msg << '\n'; }
 }
 
@@ -159,7 +159,7 @@ exChapter1_part2() {
       // }
       Matrix C = Matrix::concat(*A.crbegin(), *b.crbegin());
       C("0,2;1:4").print();
-
-   } catch (const std::string msg)
+   }
+   catch (const std::string msg)
    { std::cerr << msg << '\n'; }
 }

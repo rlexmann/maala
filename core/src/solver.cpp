@@ -24,7 +24,8 @@ backSubstitution(const Matrix& A, const size_t rhsCols) {
             {
                X(i, k) = 1.0;
                continue;
-            } else
+            }
+            else
             { return Matrix(n, rhsCols, std::nan("")); }
          }
          X(i, k) = rhs / A(i, i);

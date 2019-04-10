@@ -44,12 +44,14 @@ Matrix::Matrix(const std::string& s)
       if (0 == i)
       {
          this->reshape(m, n);
-      } else if (1 == n && isEmptyString(elements[0]))
+      }
+      else if (1 == n && isEmptyString(elements[0]))
       {
          // empty row
          this->reshape(--m, m_dim[1]);
          continue;
-      } else if (m_dim[1] != n)
+      }
+      else if (m_dim[1] != n)
       { THROW_EXCEPTION("Inconsistent row lengths."); }
       for (size_t j = 0; j < n; j++)
       {
@@ -86,7 +88,8 @@ Matrix::sliceDescFromStr(const std::string& s) {
             else
                m_cols.push_back(i);
          }
-      } else
+      }
+      else
       {
          auto vals = splitString(dimSpec, ',');
          if (vals[0] == dimSpec && isEmptyString(vals[0]))
