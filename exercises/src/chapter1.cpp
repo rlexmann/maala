@@ -160,7 +160,7 @@ exChapter1_part2() {
 
       Matrix C = Matrix::concat(*A.crbegin(), *b.crbegin());
       C.print();
-      C("0,2;1:4").print();
+      C("0,2;1:5").print();
    }
    catch (const std::string msg)
    { std::cerr << msg << '\n'; }

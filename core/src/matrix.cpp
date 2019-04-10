@@ -82,7 +82,7 @@ Matrix::parseSliceDescString(const std::string& s) {
            isEmptyString(dimLimits[0]) ? 0 : std::stoul(dimLimits[0]));
          dimSpec[ind].push_back(
            (dimLimits.size() < 2 || isEmptyString(dimLimits[1]))
-             ? m_dim[ind] - 1
+             ? m_dim[ind]
              : std::stoul(dimLimits[1]));
          mode[ind] = Matrix::SliceDesc::eMode::range;
       }

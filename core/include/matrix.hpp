@@ -91,7 +91,7 @@ class Matrix {
          const bool isRange() const { return list != mode; }
          const bool isAll() const { return all == mode; }
          const size_t count() const {
-            return (list == mode) ? indVec.size() : (indVec[1] - indVec[0] + 1);
+            return (list == mode) ? indVec.size() : (indVec[1] - indVec[0]);
          }
          const size_t operator()(const size_t& i) const {
             return isRange() ? indVec[0] + i : indVec[i];

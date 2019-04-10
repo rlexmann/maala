@@ -45,12 +45,8 @@ Matrix
 gaussJordanSolver(const Matrix& A, const Matrix& B) {
    Matrix C = Matrix::concat(A, B);
    gaussJordan(C);
-   std::vector<size_t> solCols(B.dim()[1], A.dim()[1]);
-   for (size_t j = 1; j < solCols.size(); ++j)
-   {
-      solCols[j] += j;
-   }
-   return C.getSlice({ {}, solCols });
+   return C.getSlice(
+     { {}, { { A.dim()[1], C.dim()[1] }, Matrix::SliceDesc::eMode::range } });
 }
 
 } // namespace maala
