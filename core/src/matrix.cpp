@@ -6,7 +6,6 @@
 
 #include <common.hpp>
 #include <matrix.hpp>
-#include <slicing.hpp>
 
 namespace maala {
 
@@ -62,68 +61,66 @@ Matrix::Matrix(const std::string& s)
    }
 }
 
-SliceDesc2D
-Matrix::sliceDescFromStr(const std::string& s) {
-   SliceDesc1D desc1D[2];
+Matrix::SliceDesc
+Matrix::parseSliceDescString(const std::string& s) {
+   std::vector<size_t> dimSpec[2];
+   Matrix::SliceDesc::eMode mode[2];
    const auto dimSpecStrings = splitString(s, ';');
-   if (dimSpecStrings.size() != 2)
+   if (2 != dimSpecStrings.size())
    {
-      THROW_EXCEPTION("Invalid slice definition.")
+      THROW_EXCEPTION("Invalid slice definition.");
    }
-//
-   for (size_t ind = 0; ind < m_dim.size(); ++ind)
+
+   for (size_t ind = 0; ind < 2; ++ind)
    {
-      const auto& dimSpec = dimSpecStrings[ind];
-       //<start (optional)>:<end (optional>
-      auto dimLimits = splitString(dimSpec, ':');
-      if (dimSpec != dimLimits[0])
+      const auto& dimSpecStr = dimSpecStrings[ind];
+      //<start (optional)>:<end (optional>
+      const auto dimLimits = splitString(dimSpecStr, ':');
+      if (dimSpecStr != dimLimits[0])
       { // ':' delimiter found
-         size_t low = isEmptyString(dimLimits[0]) ? 0 : std::stoi(dimLimits[0]);
-         size_t high = (dimLimits.size() < 2 || isEmptyString(dimLimits[1]))
-                         ? m_dim[ind] - 1
-                         : std::stoi(dimLimits[1]);
-         desc1D[ind].setDef({ low,high }, SliceDesc1D::iterMode::range);
+         dimSpec[ind].push_back(
+           isEmptyString(dimLimits[0]) ? 0 : std::stoul(dimLimits[0]));
+         dimSpec[ind].push_back(
+           (dimLimits.size() < 2 || isEmptyString(dimLimits[1]))
+             ? m_dim[ind] - 1
+             : std::stoul(dimLimits[1]));
+         mode[ind] = Matrix::SliceDesc::eMode::range;
       }
       else
       {
-         auto vals = splitString(dimSpec, ',');
-         if (vals[0] == dimSpec && isEmptyString(vals[0]))
+         const auto vals = splitString(dimSpecStr, ',');
+         if (dimSpecStr == vals[0] && isEmptyString(vals[0]))
          {
-            THROW_EXCEPTION("Invalid slice definition.")
+            THROW_EXCEPTION("Invalid slice definition.");
          }
 
-         indVec list;
          for (const auto& val : vals)
          {
-            size_t i = std::stoi(val);
-            list.push_back(i);
+            dimSpec[ind].push_back(std::stoul(val));
          }
-         desc1D[ind].setDef(list, SliceDesc1D::iterMode::list);
+         mode[ind] = Matrix::SliceDesc::eMode::list;
       }
    }
-   return SliceDesc2D(desc1D[0], desc1D[1]);
+   return Matrix::SliceDesc({ dimSpec[0], mode[0] }, { dimSpec[1], mode[1] });
 }
 
 Matrix
 Matrix::operator()(const std::string& s) {
-   return getSlice(sliceDescFromStr(s));
+   return getSlice(parseSliceDescString(s));
 }
 
 Matrix
-Matrix::getSlice(SliceDesc2D& sd) {
-   size_t m = sd.m_row.count();
-   size_t n = sd.m_col.count();
+Matrix::getSlice(const SliceDesc& sd) {
+   size_t m = sd.row.isAll() ? m_dim[0] : sd.row.count();
+   size_t n = sd.col.isAll() ? m_dim[1] : sd.col.count();
    Matrix slice(m, n);
-   size_t i = 0, j = 0;
-   do
+   for (size_t i = 0; i < m; ++i)
    {
-      size_t si = sd.m_row();
-      do
+      for (size_t j = 0; j < n; ++j)
       {
-         size_t sj = sd.m_col();
-         slice(i, j) = (*this)(si, sj);
-      } while (sd.m_col.inc() && j++);
-   } while (sd.m_row.inc() && i++);
+         slice(i, j) = (*this)(sd.row(i), sd.col(j));
+      }
+   }
 
    return slice;
 }

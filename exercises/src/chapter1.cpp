@@ -153,11 +153,13 @@ exChapter1_part2() {
                            0,-1, 1; "));
       b.push_back(Matrix::identity(3));
 
-      // for (size_t i = 0; i < A.size(); ++i)
-      // {
-      //    gaussJordanEliminationExerice(A[i], b[i]);
-      // }
+      for (size_t i = 0; i < A.size(); ++i)
+      {
+         gaussJordanEliminationExerice(A[i], b[i]);
+      }
+
       Matrix C = Matrix::concat(*A.crbegin(), *b.crbegin());
+      C.print();
       C("0,2;1:4").print();
    }
    catch (const std::string msg)

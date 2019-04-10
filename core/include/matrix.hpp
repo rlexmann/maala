@@ -5,7 +5,6 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <slicing.hpp>
 
 namespace maala {
 
@@ -73,9 +72,47 @@ class Matrix {
       return (*this)(i, j);
    }
 
-   SliceDesc2D sliceDescFromStr(const std::string& s);
+   struct SliceDesc {
+    public:
+      enum eMode { list, range, all };
+
+    private:
+      struct _SliceDesc {
+       public:
+         _SliceDesc()
+           : indVec{ 0 }
+           , mode{ all } {}
+         _SliceDesc(const std::vector<size_t>& v)
+           : indVec{ v }
+           , mode{ list } {}
+         _SliceDesc(const std::vector<size_t>& v, const eMode& m)
+           : indVec{ v }
+           , mode{ m } {}
+         const bool isRange() const { return list != mode; }
+         const bool isAll() const { return all == mode; }
+         const size_t count() const {
+            return (list == mode) ? indVec.size() : (indVec[1] - indVec[0] + 1);
+         }
+         const size_t operator()(const size_t& i) const {
+            return isRange() ? indVec[0] + i : indVec[i];
+         }
+         void setRange() { mode = range; }
+         void setMode(const eMode& m) { mode = m; }
+
+         std::vector<size_t> indVec;
+         eMode mode;
+      };
+
+    public:
+      SliceDesc(const _SliceDesc& sdRow, const _SliceDesc& sdCol)
+        : row{ sdRow }
+        , col{ sdCol } {}
+      _SliceDesc row, col;
+   };
+
+   SliceDesc parseSliceDescString(const std::string& s);
    Matrix operator()(const std::string& s);
-   Matrix getSlice(SliceDesc2D& sd);
+   Matrix getSlice(const SliceDesc& sd);
    Matrix getRow(const size_t i);
    Matrix getCol(const size_t j);
 

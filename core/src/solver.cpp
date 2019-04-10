@@ -50,7 +50,7 @@ gaussJordanSolver(const Matrix& A, const Matrix& B) {
    {
       solCols[j] += j;
    }
-   return C.getSlice(SliceDesc2D({0,C.dim()[0]-1}, SliceDesc1D::iterMode::range, solCols, SliceDesc1D::iterMode::list));
+   return C.getSlice({ {}, solCols });
 }
 
 } // namespace maala
