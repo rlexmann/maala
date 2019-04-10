@@ -6,6 +6,7 @@
 
 #include <common.hpp>
 #include <matrix.hpp>
+#include <slicing.hpp>
 
 namespace maala {
 
@@ -61,19 +62,19 @@ Matrix::Matrix(const std::string& s)
    }
 }
 
-Matrix::SliceDesc
+SliceDesc2D
 Matrix::sliceDescFromStr(const std::string& s) {
-   std::vector<size_t> m_rows, m_cols;
+   SliceDesc1D desc1D[2];
    const auto dimSpecStrings = splitString(s, ';');
    if (dimSpecStrings.size() != 2)
    {
       THROW_EXCEPTION("Invalid slice definition.")
    }
-
-   size_t ind = 0;
-   for (const auto& dimSpec : dimSpecStrings)
+//
+   for (size_t ind = 0; ind < m_dim.size(); ++ind)
    {
-      // <start (optional)>:<end (optional>
+      const auto& dimSpec = dimSpecStrings[ind];
+       //<start (optional)>:<end (optional>
       auto dimLimits = splitString(dimSpec, ':');
       if (dimSpec != dimLimits[0])
       { // ':' delimiter found
@@ -81,13 +82,7 @@ Matrix::sliceDescFromStr(const std::string& s) {
          size_t high = (dimLimits.size() < 2 || isEmptyString(dimLimits[1]))
                          ? m_dim[ind] - 1
                          : std::stoi(dimLimits[1]);
-         for (size_t i = low; i <= high; ++i)
-         {
-            if (0 == ind)
-               m_rows.push_back(i);
-            else
-               m_cols.push_back(i);
-         }
+         desc1D[ind].setDef({ low,high }, SliceDesc1D::iterMode::range);
       }
       else
       {
@@ -97,19 +92,16 @@ Matrix::sliceDescFromStr(const std::string& s) {
             THROW_EXCEPTION("Invalid slice definition.")
          }
 
+         indVec list;
          for (const auto& val : vals)
          {
             size_t i = std::stoi(val);
-            if (0 == ind)
-               m_rows.push_back(i);
-            else
-               m_cols.push_back(i);
+            list.push_back(i);
          }
+         desc1D[ind].setDef(list, SliceDesc1D::iterMode::list);
       }
-
-      ++ind;
    }
-   return Matrix::SliceDesc(m_rows, m_cols);
+   return SliceDesc2D(desc1D[0], desc1D[1]);
 }
 
 Matrix
@@ -118,20 +110,21 @@ Matrix::operator()(const std::string& s) {
 }
 
 Matrix
-Matrix::getSlice(const SliceDesc& sd) {
-   bool allRows = sd.m_rows.empty(), allCols = sd.m_cols.empty();
-   size_t m = allRows ? m_dim[0] : sd.m_rows.size();
-   size_t n = allCols ? m_dim[1] : sd.m_cols.size();
+Matrix::getSlice(SliceDesc2D& sd) {
+   size_t m = sd.m_row.count();
+   size_t n = sd.m_col.count();
    Matrix slice(m, n);
-   for (size_t i = 0; i < m; ++i)
+   size_t i = 0, j = 0;
+   do
    {
-      size_t si = allRows ? i : sd.m_rows[i];
-      for (size_t j = 0; j < n; ++j)
+      size_t si = sd.m_row();
+      do
       {
-         size_t sj = allCols ? j : sd.m_cols[j];
+         size_t sj = sd.m_col();
          slice(i, j) = (*this)(si, sj);
-      }
-   }
+      } while (sd.m_col.inc() && j++);
+   } while (sd.m_row.inc() && i++);
+
    return slice;
 }
 

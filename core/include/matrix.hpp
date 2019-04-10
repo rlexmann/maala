@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <slicing.hpp>
 
 namespace maala {
 
@@ -72,26 +73,9 @@ class Matrix {
       return (*this)(i, j);
    }
 
-   // slicing
-   struct SliceDesc {
-    public:
-      SliceDesc(size_t i, std::vector<size_t> cols)
-        : m_rows{ i }
-        , m_cols{ cols } {}
-      SliceDesc(std::vector<size_t> rows, size_t j)
-        : m_rows{ rows }
-        , m_cols{ j } {}
-      SliceDesc(std::vector<size_t> rows, std::vector<size_t> cols)
-        : m_rows{ rows }
-        , m_cols{ cols } {}
-      ~SliceDesc() {}
-
-      std::vector<size_t> m_rows, m_cols;
-   };
-
-   SliceDesc sliceDescFromStr(const std::string& s);
+   SliceDesc2D sliceDescFromStr(const std::string& s);
    Matrix operator()(const std::string& s);
-   Matrix getSlice(const SliceDesc& sd);
+   Matrix getSlice(SliceDesc2D& sd);
    Matrix getRow(const size_t i);
    Matrix getCol(const size_t j);
 
