@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <array>
 #include <common.hpp>
 #include <elimination.hpp>
 #include <matrix.hpp>
@@ -45,8 +46,7 @@ Matrix
 gaussJordanSolver(const Matrix& A, const Matrix& B) {
    Matrix C = Matrix::concat(A, B);
    gaussJordan(C);
-   return C.getSlice(
-     { {}, { { A.dim()[1], C.dim()[1] }, Matrix::SliceDesc::eMode::range } });
+   return C.getSlice({ {}, { range_t{ A.dim()[1], C.dim()[1] } } });
 }
 
 } // namespace maala

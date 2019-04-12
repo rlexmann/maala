@@ -1,6 +1,7 @@
 #ifndef MAALA_MATRIX_HPP
 #define MAALA_MATRIX_HPP
 
+#include <array>
 #include <common.hpp>
 #include <iostream>
 #include <string>
@@ -82,6 +83,9 @@ class Matrix {
          _SliceDesc()
            : indVec{ 0 }
            , mode{ all } {}
+         _SliceDesc(const range_t& r)
+           : indVec{ r[0], r[1] }
+           , mode{ range } {}
          _SliceDesc(const std::vector<size_t>& v)
            : indVec{ v }
            , mode{ list } {}

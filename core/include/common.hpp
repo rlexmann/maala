@@ -1,6 +1,7 @@
 #ifndef MAALA_COMMON_HPP
 #define MAALA_COMMON_HPP
 
+#include <array>
 #include <cmath>
 #include <limits>
 #include <sstream>
@@ -21,12 +22,16 @@ namespace maala {
 
 typedef std::vector<double> double1D;
 typedef std::vector<std::vector<double>> double2D;
+typedef std::array<size_t, 2> range_t;
 
 template<typename T>
 constexpr bool
 isEqual(const T a, const T b) {
    return std::abs(a - b) <= std::numeric_limits<T>::epsilon();
 }
+
+// template <int N>
+// using range = std::array<int, N>;
 
 } // namespace maala
 
