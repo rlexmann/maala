@@ -26,7 +26,7 @@ then
 	# run make
 	make -C $BUILD_DIR;
 	# copy build result (for convenience)
-	cp $BUILD_DIR/demo.exe ./;
+	cp $BUILD_DIR/*.exe ./;
 
 else
 	echo "Manual build required.";

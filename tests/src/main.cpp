@@ -1,13 +1,13 @@
 #include <iostream>
 #include <string>
 
-#include <chapters.hpp>
 #include <config.hpp>
+#include <tests.hpp>
 
 int
 main() {
-   exChapter1_part1();
-   exChapter1_part2();
+   testSuite1();
+   testSuite2();
 
 #ifdef WIN32
    std::cout << std::endl << "Press Return to exit..." << std::endl;

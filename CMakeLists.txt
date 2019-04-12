@@ -23,6 +23,21 @@ target_include_directories (maala_core PRIVATE ${CORE_INCLUDE_DIR})
 target_include_directories (maala_core INTERFACE ${CORE_INCLUDE_DIR})
 set_target_properties(maala_core PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
+# tests
+
+set(TEST_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tests/src)
+set(TEST_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tests/include)
+
+file(GLOB_RECURSE TEST_SOURCES
+	"${TEST_SOURCE_DIR}/*.cpp"
+	"${TEST_INCLUDE_DIR}/*.hpp"
+)
+
+add_executable (test ${TEST_SOURCES})
+target_include_directories (test PRIVATE ${TEST_INCLUDE_DIR})
+target_link_libraries (test maala_core)
+set_target_properties(test PROPERTIES SUFFIX ".exe")
+
 # exercises
 
 set(EX_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/exercises/src)
