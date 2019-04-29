@@ -5,6 +5,7 @@
 #include <elimination.hpp>
 #include <matrix.hpp>
 #include <solver.hpp>
+#include <twoPointBoundary.hpp>
 
 #include <chapters.hpp>
 
@@ -164,4 +165,18 @@ exChapter1_part2() {
    }
    catch (const std::string msg)
    { std::cerr << msg << '\n'; }
+}
+
+void
+exChapter1_part3() {
+   auto Y = twoPointBoundarySecondDegreeSolver(&ConstCoeff(1),
+                                               &ConstCoeff(0),
+                                               &ConstCoeff(0),
+                                               &LinearCoeff(125),
+                                               0,
+                                               0,
+                                               1,
+                                               0,
+                                               4);
+   Y.print();
 }
