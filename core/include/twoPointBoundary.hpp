@@ -33,10 +33,10 @@ class LinearCoeff : public FuncT {
 };
 
 Matrix
-twoPointBoundarySecondDegreeSolver(const FuncT* a,
-                                   const FuncT* b,
-                                   const FuncT* c,
-                                   const FuncT* rhs,
+twoPointBoundarySecondDegreeSolver(const FuncT& a,
+                                   const FuncT& b,
+                                   const FuncT& c,
+                                   const FuncT& rhs,
                                    const double t0,
                                    const double y0,
                                    const double t1,
