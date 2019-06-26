@@ -3,6 +3,7 @@
 
 #include <array>
 #include <cmath>
+#include <iostream>
 #include <limits>
 #include <sstream>
 #include <string>
@@ -20,6 +21,11 @@
 
 namespace maala {
 
+static void
+TRACE(const std::string& msg) {
+   std::cout << msg << std::endl;
+}
+
 typedef std::vector<double> double1D;
 typedef std::vector<std::vector<double>> double2D;
 typedef std::array<size_t, 2> range_t;
@@ -27,7 +33,7 @@ typedef std::array<size_t, 2> range_t;
 template<typename T>
 constexpr bool
 isEqual(const T a, const T b) {
-   return std::abs(a - b) <= std::numeric_limits<T>::epsilon();
+   return std::abs(a - b) <= (2 * std::numeric_limits<T>::epsilon());
 }
 
 // template <int N>

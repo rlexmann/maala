@@ -273,9 +273,12 @@ Matrix::operator==(const Matrix& B) {
    {
       for (size_t j = 0; j < m_dim[1]; ++j)
       {
-         if (!isEqual<double>((*this)(i, j), B(i, j)))
+         if (!isEqual((*this)(i, j), B(i, j)))
          {
-            std::cout << ((*this)(i, j) == B(i, j)) << std::endl;
+            std::cout << i << " " << j << " " << (*this)(i, j) << " " << B(i, j)
+                      << " " << (*this)(i, j) - B(i, j) << " "
+                      << 2 * std::numeric_limits<double>::epsilon()
+                      << std::endl;
             return false;
          }
       }

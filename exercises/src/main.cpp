@@ -1,14 +1,30 @@
 #include <iostream>
 #include <string>
 
-#include <chapters.hpp>
+#include <common.hpp>
 #include <config.hpp>
+
+#include <elimination.hpp>
+#include <matrix.hpp>
+#include <solver.hpp>
+#include <twoPointBoundary.hpp>
+
+using namespace maala;
 
 int
 main() {
-   // exChapter1_part1();
-   // exChapter1_part2();
-   exChapter1_part3();
+   TRACE("Demo");
+
+   auto Y = twoPointBoundarySecondDegreeSolver(ConstCoeff(1),
+                                               ConstCoeff(0),
+                                               ConstCoeff(0),
+                                               LinearCoeff(125),
+                                               0,
+                                               0,
+                                               1,
+                                               0,
+                                               4);
+   Y.print();
 
 #ifdef WIN32
    std::cout << std::endl << "Press Return to exit..." << std::endl;
