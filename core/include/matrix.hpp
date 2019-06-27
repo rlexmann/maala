@@ -135,7 +135,9 @@ class Matrix {
    Matrix concat(const Matrix& B) const { return concat(*this, B); }
 
    static Matrix round(const Matrix& A, const double precision);
-   Matrix round(const double precision) const { return round(*this, precision); }
+   Matrix round(const double precision) const {
+      return round(*this, precision);
+   }
 
    // comparator
    bool operator==(const Matrix& B);

@@ -9,10 +9,10 @@
 namespace maala {
 
 Matrix
-twoPointBoundarySecondDegreeSolver(const FuncT* a,
-                                   const FuncT* b,
-                                   const FuncT* c,
-                                   const FuncT* rhs,
+twoPointBoundarySecondDegreeSolver(const FuncT& a,
+                                   const FuncT& b,
+                                   const FuncT& c,
+                                   const FuncT& rhs,
                                    const double t0,
                                    const double y0,
                                    const double t1,
@@ -28,10 +28,10 @@ twoPointBoundarySecondDegreeSolver(const FuncT* a,
    for (size_t i = 1; i <= n; ++i)
    {
       const double t = i * h;
-      A(i, i - 1) = (2 * (*a)(t)) + (-h * (*b)(t));
-      A(i, i) = (-4 * (*a)(t)) + (2 * h * h * (*c)(t));
-      A(i, i + 1) = (2 * (*a)(t)) + (h * (*b)(t));
-      B(i, 0) = (2 * h * h * (*rhs)(t));
+      A(i, i - 1) = (2 * a(t)) + (-h * b(t));
+      A(i, i) = (-4 * a(t)) + (2 * h * h * c(t));
+      A(i, i + 1) = (2 * a(t)) + (h * b(t));
+      B(i, 0) = (2 * h * h * rhs(t));
    }
 
    A(n + 1, n + 1) = 1;

@@ -10,21 +10,16 @@
 
 using namespace maala;
 
+void
+evaluate(const bool result) {
+   std::cout << (result ? "passed" : "failed") << std::endl;
+}
+
 bool
 gaussEliminationTest(const Matrix& A, const Matrix& B, const Matrix& Xref) {
    Matrix C = Matrix::concat(A, B);
    Matrix X = gaussSolver(A, B);
    return (A * X == B); // && X == Xref);
-}
-
-bool
-gaussJordanEliminationTest(const Matrix& A,
-                           const Matrix& B,
-                           const Matrix& Xref) {
-   Matrix C = Matrix::concat(A, B);
-   Matrix X = gaussJordanSolver(A, B);
-   (A * X).round(1e-9).print();
-   return ((A * X).round(1e-12) == B); // && X == Xref);
 }
 
 void
@@ -94,9 +89,7 @@ testSuite1() {
 
       for (size_t i = 0; i < A.size(); ++i)
       {
-         std::cout << (gaussEliminationTest(A[i], b[i], X[i]) ? "passed"
-                                                              : "failed")
-                   << std::endl;
+         evaluate(gaussEliminationTest(A[i], b[i], X[i]));
       }
       // Exercise 1.2.11
       A.push_back(Matrix(" .4, .0, .0, .2; \
@@ -106,12 +99,21 @@ testSuite1() {
       b.push_back(Matrix("12;25;26;37"));
       X.push_back(Matrix("10;20;30;40"));
       // a)
-      gaussEliminationTest(*A.rbegin(), *b.rbegin(), *X.rbegin());
+      evaluate(gaussEliminationTest(*A.rbegin(), *b.rbegin(), *X.rbegin()));
       // b)
-      //((*A.rbegin()) * Matrix("20;20;20;40;")).print();
+      evaluate((*A.rbegin()) * Matrix("20;20;20;40") == Matrix("16;22;22;40"));
    }
    catch (const std::string msg)
    { std::cerr << msg << '\n'; }
+}
+
+bool
+gaussJordanEliminationTest(const Matrix& A,
+                           const Matrix& B,
+                           const Matrix& Xref) {
+   Matrix C = Matrix::concat(A, B);
+   Matrix X = gaussJordanSolver(A, B);
+   return ((A * X).round(1e-12) == B); // && X == Xref);
 }
 
 void
@@ -154,9 +156,7 @@ testSuite2() {
 
       for (size_t i = 0; i < A.size(); ++i)
       {
-         std::cout << (gaussJordanEliminationTest(A[i], b[i], X[i]) ? "passed"
-                                                                    : "failed")
-                   << std::endl;
+         evaluate(gaussJordanEliminationTest(A[i], b[i], X[i]));
       }
    }
    catch (const std::string msg)
