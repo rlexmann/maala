@@ -262,6 +262,23 @@ Matrix::concat(const Matrix& A, const Matrix& B) {
    return C;
 }
 
+Matrix
+Matrix::round(const Matrix& A, const double precision) {
+   Matrix B{ A };
+   const double invPrecision = 1 / precision;
+   for (size_t i = 0; i < B.dim()[0]; ++i)
+   {
+      for (size_t j = 0; j < B.dim()[1]; ++j)
+      {
+         auto& b = B(i, j);
+         b *= invPrecision;
+         std::round(b);
+         b *= precision;
+      }
+   }
+   return B;
+}
+
 bool
 Matrix::operator==(const Matrix& B) {
    if (m_dim != B.dim())
@@ -275,7 +292,6 @@ Matrix::operator==(const Matrix& B) {
       {
          if (!isEqual<double>((*this)(i, j), B(i, j)))
          {
-            std::cout << ((*this)(i, j) == B(i, j)) << std::endl;
             return false;
          }
       }

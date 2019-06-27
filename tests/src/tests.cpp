@@ -23,7 +23,8 @@ gaussJordanEliminationTest(const Matrix& A,
                            const Matrix& Xref) {
    Matrix C = Matrix::concat(A, B);
    Matrix X = gaussJordanSolver(A, B);
-   return (A * X == B); // && X == Xref);
+   (A * X).round(1e-9).print();
+   return ((A * X).round(1e-12) == B); // && X == Xref);
 }
 
 void

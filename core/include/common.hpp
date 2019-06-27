@@ -26,8 +26,8 @@ typedef std::array<size_t, 2> range_t;
 
 template<typename T>
 constexpr bool
-isEqual(const T a, const T b) {
-   return std::abs(a - b) <= std::numeric_limits<T>::epsilon();
+isEqual(const T a, const T b, const T precision = std::numeric_limits<T>::epsilon()) {
+   return std::abs(a - b) <= precision;
 }
 
 // template <int N>
